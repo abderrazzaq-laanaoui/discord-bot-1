@@ -2,7 +2,7 @@
   "name": "tuto-nodejs",
   "version": "1.0.0",
   "description": "",
-  "main": "src/bot.js",
+  "main": "src/bot.ts",
   "scripts": {
     "start": "node .",
     "dev": "nodemon",
