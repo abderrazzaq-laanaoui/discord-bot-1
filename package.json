@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/bot.ts",
   "scripts": {
-    "start": "node .",
+    "start": "ts-node .",
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^13.8.1",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "ts-node": "^10.8.2",
+    "wokcommands": "^1.5.3"
   }
 }

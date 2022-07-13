@@ -6,67 +6,72 @@ import DiscordJS, { Intents } from "discord.js";
 
 // Create a new client instance
 const client = new DiscordJS.Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-  retryLimit: 5,
+    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+    retryLimit: 5,
 });
 
 // When the client is ready, run this code (only once)
 client.on("ready", () => {
-  console.log("Ready!");
+    console.log("Ready!");
 
-  const guildId = "996790285315092491";
-  const guild = client.guilds.cache.get(guildId);
+    const guildId = "996790285315092491";
+    const guild = client.guilds.cache.get(guildId);
 
-  let commandes = guild ? guild.commands : client.application?.commands;
+    let commandes = guild ? guild.commands : client.application?.commands;
 
-  commandes?.create({
-    name: "ping",
-    description: "Replies with poong!",
-  });
+    commandes?.create({
+        name: "ping",
+        description: "Replies with poong!",
+    });
 
-  commandes?.create({
-    name: "add",
-    description: "adds two numbers",
-    options: [
-      {
-        name: "num1",
-        description: "the first number.",
-        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
-        required: true,
-      },
-      {
-        name: "num2",
-        description: "the second number.",
-        type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
-        required: true,
-      },
-    ],
-  });
+    commandes?.create({
+        name: "add",
+        description: "adds two numbers",
+        options: [
+            {
+                name: "num1",
+                description: "the first number.",
+                type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+                required: true,
+            },
+            {
+                name: "num2",
+                description: "the second number.",
+                type: DiscordJS.Constants.ApplicationCommandOptionTypes.NUMBER,
+                required: true,
+            },
+        ],
+    });
 });
 
 client.on("messageCreate", (msg) => {
-  if (msg.content == "Ping") msg.reply({ content: "Poong!!" });
+    if (msg.content == "Ping") msg.reply({ content: "Poong!!" });
 });
 
 client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isCommand()) return;
+    if (!interaction.isCommand()) return;
 
-  const { commandName, options } = interaction;
+    const { commandName, options } = interaction;
 
-  if (commandName == "ping")
-    interaction.reply({
-      content: "Pooong!",
-      ephemeral: true,
-    });
-  else if (commandName == "add") {
-    let num1: number = options.getNumber("num1")!;
-    let num2: number = options.getNumber("num2")!;
+    if (commandName == "ping")
+        interaction.reply({
+            content: "Pooong!",
+            ephemeral: true,
+        });
+    else if (commandName == "add") {
+        let num1: number = options.getNumber("num1")!;
+        let num2: number = options.getNumber("num2")!;
 
-    interaction.reply({
-      content: `The sum is ${num1 + num2}`,
-      ephemeral: true,
-    });
-  }
+        await interaction.deferReply({
+            ephemeral: true,
+        })
+        // this for making d respanse delay: 
+        // await new Promise((resolve)=>setTimeout(resolve,5000));
+        
+        await interaction.editReply({
+            content: `The sum is ${num1 + num2}`,
+        });
+    }
 });
 
 // Login to Discord with your client's token
